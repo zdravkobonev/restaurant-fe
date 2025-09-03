@@ -1,4 +1,4 @@
-# ---------- build stage ----------
+# --- build stage ---
 FROM node:20-alpine AS build
 WORKDIR /app
 
@@ -10,16 +10,14 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# ---------- serve stage ----------
+# --- runtime stage ---
 FROM nginx:alpine
-# копираме build-а от предната стъпка
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# по желание: custom nginx.conf (пример: /etc/nginx/conf.d/default.conf)
-
-# healthcheck
-HEALTHCHECK --interval=10s --timeout=3s --retries=6 \
-  CMD wget -qO- http://localhost:80/ || exit 1
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+RUN apk add --no-cache bash gettext
+# статичните файлове на Vite
+COPY --from=build /app/dist/ /usr/share/nginx/html/
+# гарантираме шаблона (ако public/ не е в dist)
+COPY public/config.template.js /usr/share/nginx/html/config.template.js
+# entrypoint
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]

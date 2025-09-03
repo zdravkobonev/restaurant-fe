@@ -1,24 +1,32 @@
 // src/api/client.ts
-import axios from "axios";
+import axios, { AxiosHeaders, type InternalAxiosRequestConfig } from "axios";
 import { getToken, clearToken } from "../lib/auth";
-// централен axios client, който го прави сам, добавя токена в Authorization: Bearer ... header.
 
-// axios инстанция с базовия URL от .env
-export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-});
+// runtime конфиг от /config.js (ако го има)
+declare global {
+  interface Window {
+    __ENV?: { VITE_API_BASE_URL?: string };
+  }
+}
 
-// всеки път, преди да тръгне заявката
-api.interceptors.request.use((config) => {
+const runtimeBase =
+  typeof window !== "undefined" ? window.__ENV?.VITE_API_BASE_URL : undefined;
+
+// 1) runtime (/config.js), 2) build-time (Vite), 3) fallback ""
+const baseURL = runtimeBase ?? import.meta.env.VITE_API_BASE_URL ?? "";
+
+export const api = axios.create({ baseURL });
+
+api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = getToken();
   if (token) {
-    config.headers = config.headers ?? {};
-    config.headers.Authorization = `Bearer ${token}`;
+    const headers = AxiosHeaders.from(config.headers);
+    headers.set("Authorization", `Bearer ${token}`);
+    config.headers = headers;
   }
   return config;
 });
 
-// ако бекендът върне 401 → чистим токена и пращаме към /login
 api.interceptors.response.use(
   (res) => res,
   (err) => {
