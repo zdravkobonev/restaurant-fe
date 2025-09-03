@@ -100,7 +100,7 @@ export default function LoginPage() {
           </div>
 
           <Typography.Title level={2} className="!text-white !m-0 text-center">
-            Cloud Touchsale Backoffice v5
+            Cloud Touchsale Backoffice v6
           </Typography.Title>
           <Typography.Paragraph className="!text-white/80 !mt-2 text-center">
             Достъп само за администратори
