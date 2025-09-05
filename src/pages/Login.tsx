@@ -100,7 +100,7 @@ export default function LoginPage() {
           </div>
 
           <Typography.Title level={2} className="!text-white !m-0 text-center">
-            Cloud Touchsale v1
+            Cloud Touchsale v2
           </Typography.Title>
           <Typography.Paragraph className="!text-white/80 !mt-2 text-center">
             Управлявай всички процеси в твоя ресторант лесно и бързо.
