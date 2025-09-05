@@ -1,5 +1,5 @@
 const Dashboard = () => {
-  return <div>Welcome to Organization UI</div>;
+  return <div>Welcome to Restaurant UI</div>;
 };
 
 export default Dashboard;
