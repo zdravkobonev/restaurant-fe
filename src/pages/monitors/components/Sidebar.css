@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* Sidebar theme overrides */
+.sidebar .ant-menu-item,
+.sidebar .ant-menu-title-content {
+  @apply text-gray-700;
+}
+.sidebar .ant-menu-item .anticon {
+  color: inherit;
+}
+.sidebar .ant-menu-item-selected,
+.sidebar .ant-menu-item-active {
+  @apply bg-sky-100 text-sky-600;
+}
+.sidebar .ant-menu-item-selected .anticon,
+.sidebar .ant-menu-item-active .anticon {
+  color: inherit;
+}
+
+.sidebar .ant-menu-item-selected .ant-menu-title-content,
+.sidebar .ant-menu-item-active .ant-menu-title-content {
+  @apply text-sky-600;
+}
+
+/* Smooth collapse: hide labels and fade icons/text gracefully */
+.sidebar {
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  overflow: visible; /* allow edge button to be visible */
+}
+.sidebar.is-collapsed .ant-menu-item .ant-menu-title-content {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.sidebar .ant-menu-item .ant-menu-title-content {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+/* Center icons when collapsed in sidebar */
+.sidebar.is-collapsed .ant-menu-inline .ant-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+.sidebar.is-collapsed .ant-menu-inline .ant-menu-item .ant-menu-title-content {
+  display: none;
+}
+.sidebar.is-collapsed .ant-menu-inline .ant-menu-item .anticon {
+  margin-right: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar.is-collapsed .ant-menu-item::before {
+  left: 0.5rem; /* adjust active indicator */
+}
+
+/* Style for the small toggle button so it looks like a floating pill */
+.sidebar > .h-full > .absolute {
+  /* no-op selector target; precise styling handled inline in component */
+}

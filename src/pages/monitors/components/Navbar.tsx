@@ -2,7 +2,7 @@ import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import { clearToken } from "../lib/auth";
+import { clearToken } from "../../../lib/auth";
 
 export default function Navbar() {
   const items: MenuProps["items"] = [
@@ -35,9 +35,7 @@ export default function Navbar() {
           </div>
           <div className="xs:block">
             <div className="font-semibold">Cloud Touchsale</div>
-            <div className="text-xs text-gray-500">
-              Система за управление на ресторанти
-            </div>
+            <div className="text-xs text-gray-500">Монитори</div>
           </div>
         </div>
       </div>
