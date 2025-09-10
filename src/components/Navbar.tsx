@@ -6,11 +6,11 @@ import { clearToken } from "../lib/auth";
 
 export default function Navbar() {
   const items: MenuProps["items"] = [
-    {
-      key: "profile",
-      label: "Профил",
-      icon: <UserOutlined />,
-    },
+    // {
+    //   key: "profile",
+    //   label: "Профил",
+    //   icon: <UserOutlined />,
+    // },
     {
       key: "logout",
       label: "Изход",
@@ -42,11 +42,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="xs:flex items-center gap-4">
-          <div className="text-sm text-gray-600">Добре дошъл</div>
-        </div>
-
+      <div className="flex items-center">
         <Dropdown
           menu={{ items, onClick: onMenuClick }}
           trigger={["click"]}
