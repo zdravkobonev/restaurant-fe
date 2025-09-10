@@ -10,7 +10,7 @@ import {
   DatabaseOutlined,
 } from "@ant-design/icons";
 
-const Dashboard = () => {
+const Modules = () => {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
@@ -92,4 +92,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Modules;

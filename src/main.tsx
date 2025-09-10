@@ -9,7 +9,7 @@ import "antd/dist/reset.css";
 import "./index.css";
 
 import LoginPage from "./pages/Login";
-import DashboardPage from "./pages/Dashboard";
+import Modules from "./pages/Modules";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -22,15 +22,15 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route
-              path="/dashboard"
+              path="/"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <Modules />
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </Provider>

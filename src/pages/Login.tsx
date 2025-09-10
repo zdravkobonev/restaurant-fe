@@ -25,7 +25,7 @@ export default function LoginPage() {
         closeIcon: false,
       });
 
-      navigate("/dashboard", { replace: true });
+      navigate("/", { replace: true });
     } catch (err: unknown) {
       let detail: string | undefined;
 
