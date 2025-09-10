@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Card, Form, Input, Button, Typography, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
-import { setToken } from "../lib/auth";
+import { useAppDispatch } from "../store/hooks";
+import { login } from "../store/authSlice";
 import { isAxiosError } from "axios";
 import { motion } from "framer-motion";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
@@ -11,12 +11,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   async function onFinish(values: { username: string; password: string }) {
     setLoading(true);
     try {
-      const res = await login(values.username, values.password);
-      setToken(res.access_token);
+      await dispatch(login(values)).unwrap();
 
       api.success({
         message: "Успешен вход",
