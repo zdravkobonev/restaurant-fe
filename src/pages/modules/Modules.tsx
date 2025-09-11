@@ -9,6 +9,8 @@ import {
   FileTextOutlined,
   CalendarOutlined,
   DatabaseOutlined,
+  TruckOutlined,
+  TagsOutlined,
 } from "@ant-design/icons";
 
 const Modules = () => {
@@ -57,6 +59,20 @@ const Modules = () => {
       desc: "Следи наличности и доставки",
       icon: <DatabaseOutlined className="!text-sky-600 text-xl" />,
       path: "/inventory",
+    },
+    {
+      key: "discounts",
+      title: "Отстъпки",
+      desc: "Управлявай отстъпки и промоции",
+      icon: <TagsOutlined className="!text-sky-600 text-xl" />,
+      path: "/discounts",
+    },
+    {
+      key: "delivery",
+      title: "Доставки",
+      desc: "Управлявай доставки и куриерски услуги",
+      icon: <TruckOutlined className="!text-sky-600 text-xl" />,
+      path: "/delivery",
     },
   ];
 

@@ -19,6 +19,8 @@ import Reports from "./pages/reports/Reports";
 import Reservations from "./pages/reservations/Reservations";
 import Inventory from "./pages/inventory/Inventory";
 import Dashboard from "./pages/configuration/Dashboard";
+import Discounts from "./pages/discounts/Discounts";
+import Delivery from "./pages/delivery/Delivery";
 
 const queryClient = new QueryClient();
 
@@ -86,6 +88,22 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <ProtectedRoute>
                   <Inventory />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/discounts"
+              element={
+                <ProtectedRoute>
+                  <Discounts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/delivery"
+              element={
+                <ProtectedRoute>
+                  <Delivery />
                 </ProtectedRoute>
               }
             />
