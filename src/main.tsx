@@ -13,10 +13,12 @@ import Modules from "./pages/modules/Modules";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Ordering from "./pages/ordering/Ordering";
 import Configuration from "./pages/configuration/Configuration";
+import Access from "./pages/configuration/Access";
 import Monitors from "./pages/monitors/Monitors";
 import Reports from "./pages/reports/Reports";
 import Reservations from "./pages/reservations/Reservations";
 import Inventory from "./pages/inventory/Inventory";
+import Dashboard from "./pages/configuration/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -50,7 +52,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <Configuration />
                 </ProtectedRoute>
               }
-            />
+            >
+              {/* index shows the basic configuration landing */}
+              <Route index element={<Dashboard />} />
+              <Route path="access" element={<Access />} />
+            </Route>
             <Route
               path="/monitors"
               element={

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 
@@ -18,9 +19,11 @@ const Configuration = () => {
           />
         </div>
 
-        {/* Main content area */}
+        {/* Main content area: render nested routes here */}
         <main className="flex-1 p-6">
-          <div className="max-w-4xl mx-auto">Модул - Конфигурация</div>
+          <div className="max-w-4xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

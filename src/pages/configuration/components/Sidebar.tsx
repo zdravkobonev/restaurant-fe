@@ -1,13 +1,13 @@
 import { Menu } from "antd";
 import {
   HomeOutlined,
-  PieChartOutlined,
-  SettingOutlined,
+  UserOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import "./Sidebar.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 type Props = {
   collapsed: boolean;
@@ -16,6 +16,8 @@ type Props = {
 };
 
 export default function Sidebar({ collapsed, onToggle }: Props) {
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <motion.nav
       initial={false}
@@ -44,12 +46,22 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
         </div>
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={[
+            location.pathname === "/configuration" ||
+            location.pathname === "/configuration/"
+              ? "1"
+              : location.pathname.startsWith("/configuration/access")
+              ? "2"
+              : "",
+          ]}
           inlineCollapsed={false}
+          onClick={(info) => {
+            if (info.key === "1") navigate("/configuration");
+            if (info.key === "2") navigate("/configuration/access");
+          }}
           items={[
             { key: "1", icon: <HomeOutlined />, label: "Табло" },
-            { key: "2", icon: <PieChartOutlined />, label: "Продажби" },
-            { key: "3", icon: <SettingOutlined />, label: "Настройки" },
+            { key: "2", icon: <UserOutlined />, label: "Достъпи" },
           ]}
         />
       </div>
