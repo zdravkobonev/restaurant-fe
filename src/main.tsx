@@ -4,13 +4,18 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import { fetchUserRoles } from "./store/authSlice";
+// fire a roles fetch on app start if token exists
+store.dispatch(fetchUserRoles());
+import AuthorizedRoute from "./routes/AuthorizedRoute";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "antd/dist/reset.css";
 import "./index.css";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
+
 import LoginPage from "./pages/Login";
 import Modules from "./pages/modules/Modules";
-import ProtectedRoute from "./routes/ProtectedRoute";
 import Ordering from "./pages/ordering/Ordering";
 import Configuration from "./pages/configuration/Configuration";
 import Users from "./pages/configuration/Users";
@@ -43,7 +48,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/ordering"
               element={
                 <ProtectedRoute>
-                  <Ordering />
+                  <AuthorizedRoute requiredParentId={13}>
+                    <Ordering />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
@@ -51,7 +58,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/configuration"
               element={
                 <ProtectedRoute>
-                  <Configuration />
+                  <AuthorizedRoute requiredParentId={19}>
+                    <Configuration />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             >
@@ -63,7 +72,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/monitors"
               element={
                 <ProtectedRoute>
-                  <Monitors />
+                  <AuthorizedRoute requiredParentId={22}>
+                    <Monitors />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
@@ -71,7 +82,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/reports"
               element={
                 <ProtectedRoute>
-                  <Reports />
+                  <AuthorizedRoute requiredParentId={26}>
+                    <Reports />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
@@ -79,7 +92,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/reservations"
               element={
                 <ProtectedRoute>
-                  <Reservations />
+                  <AuthorizedRoute requiredParentId={31}>
+                    <Reservations />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
@@ -87,7 +102,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/inventory"
               element={
                 <ProtectedRoute>
-                  <Inventory />
+                  <AuthorizedRoute requiredParentId={34}>
+                    <Inventory />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
@@ -95,7 +112,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/discounts"
               element={
                 <ProtectedRoute>
-                  <Discounts />
+                  <AuthorizedRoute requiredParentId={40}>
+                    <Discounts />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
@@ -103,7 +122,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="/delivery"
               element={
                 <ProtectedRoute>
-                  <Delivery />
+                  <AuthorizedRoute requiredParentId={37}>
+                    <Delivery />
+                  </AuthorizedRoute>
                 </ProtectedRoute>
               }
             />
