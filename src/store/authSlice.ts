@@ -5,24 +5,26 @@ import { setToken, clearToken, getToken } from "../lib/auth";
 
 type AuthState = {
   token: string | null;
+  roles: string[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error?: string | null;
 };
 
 const initialState: AuthState = {
   token: getToken(),
+  roles: [],
   status: "idle",
   error: null,
 };
 
 export const login = createAsyncThunk<
-  string,
+  { access_token: string; token_type: string; roles?: string[] },
   { username: string; password: string },
   { rejectValue: string }
 >("auth/login", async (params, { rejectWithValue }) => {
   try {
     const data = await apiLogin(params.username, params.password);
-    return data.access_token;
+    return data;
   } catch (err: unknown) {
     // try to extract a useful message from axios-like error shapes
     let message = "Login failed";
@@ -43,6 +45,7 @@ const authSlice = createSlice({
   reducers: {
     logout(state: AuthState) {
       state.token = null;
+      state.roles = [];
       state.status = "idle";
       state.error = null;
       clearToken();
@@ -56,11 +59,19 @@ const authSlice = createSlice({
       })
       .addCase(
         login.fulfilled,
-        (state: AuthState, action: PayloadAction<string>) => {
+        (
+          state: AuthState,
+          action: PayloadAction<{
+            access_token: string;
+            token_type: string;
+            roles?: string[];
+          }>
+        ) => {
           state.status = "succeeded";
-          state.token = action.payload;
+          state.token = action.payload.access_token;
+          state.roles = action.payload.roles ?? [];
           state.error = null;
-          setToken(action.payload);
+          setToken(action.payload.access_token);
         }
       )
       .addCase(login.rejected, (state: AuthState, action) => {

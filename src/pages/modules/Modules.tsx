@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import { useAppSelector } from "../../store/hooks";
 // import Sidebar from "./components/Sidebar";
 import {
   TagOutlined,
@@ -16,6 +17,8 @@ import {
 const Modules = () => {
   // const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
+  const roles = useAppSelector((s) => s.auth.roles);
+  console.log("roles", roles);
 
   const modules = [
     {
