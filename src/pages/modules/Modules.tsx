@@ -2,7 +2,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { useAppSelector } from "../../store/hooks";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { fetchUserRoles } from "../../store/authSlice";
 // import Sidebar from "./components/Sidebar";
 import {
   TagOutlined,
@@ -20,6 +21,7 @@ const Modules = () => {
   // const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
   const roles = useAppSelector((s) => s.auth.roles);
+  const dispatch = useAppDispatch();
   // roles may be an array of objects like { parentId: number, roles: [...] }
   // or a flat string array (legacy). We only care about parentId numbers.
   const userHasParent = (parentId: number) => {
@@ -145,13 +147,19 @@ const Modules = () => {
 
   // If user has exactly one parentId, redirect directly to that module
   useEffect(() => {
+    // if no roles loaded yet, fetch them from backend
+    if (!roles || (Array.isArray(roles) && roles.length === 0)) {
+      // fire-and-forget; slice will keep existing roles on failure
+      dispatch(fetchUserRoles());
+    }
+
     if (userParentIds.length === 1) {
       const parent = userParentIds[0];
       const match = modules.find((m) => m.parentId === parent);
       if (match) navigate(match.path);
     }
     // only run on mount or when modules/roles change
-  }, [navigate, userParentIds, modules]);
+  }, [navigate, userParentIds, modules, dispatch, roles]);
   // (duplicate declarations removed)
 
   return (
