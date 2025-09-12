@@ -1,7 +1,7 @@
 import { Menu } from "antd";
 import {
   HomeOutlined,
-  UserOutlined,
+  TeamOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
@@ -50,18 +50,18 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
             location.pathname === "/configuration" ||
             location.pathname === "/configuration/"
               ? "1"
-              : location.pathname.startsWith("/configuration/access")
+              : location.pathname.startsWith("/configuration/users")
               ? "2"
               : "",
           ]}
           inlineCollapsed={false}
           onClick={(info) => {
             if (info.key === "1") navigate("/configuration");
-            if (info.key === "2") navigate("/configuration/access");
+            if (info.key === "2") navigate("/configuration/users");
           }}
           items={[
             { key: "1", icon: <HomeOutlined />, label: "Табло" },
-            { key: "2", icon: <UserOutlined />, label: "Достъпи" },
+            { key: "2", icon: <TeamOutlined />, label: "Потребители" },
           ]}
         />
       </div>
