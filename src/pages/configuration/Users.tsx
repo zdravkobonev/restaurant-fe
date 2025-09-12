@@ -30,6 +30,59 @@ type RoleWithParent = RoleOut & {
   children?: RoleWithParent[];
 };
 
+const TagPreview: React.FC<{ roles: string[] }> = ({ roles }) => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const [overflow, setOverflow] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const check = () => {
+      const lh = parseFloat(getComputedStyle(el).lineHeight || "20");
+      const maxH = lh * 2 + 8; // two lines + small padding
+      setOverflow(el.scrollHeight > maxH + 1);
+    };
+
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [roles]);
+
+  const visible = roles.join(" ").length === 0 ? [] : roles;
+
+  return (
+    <div>
+      <div
+        ref={ref}
+        className="overflow-hidden"
+        style={{ maxHeight: expanded ? undefined : "3.6rem" }}
+      >
+        <div className="flex flex-wrap gap-y-2 items-start">
+          {visible.map((r) => (
+            <Tag key={r} color="blue">
+              {r}
+            </Tag>
+          ))}
+        </div>
+      </div>
+      {overflow && (
+        <div className="w-full flex justify-center">
+          <Button
+            type="link"
+            onClick={() => setExpanded((v) => !v)}
+            className="!text-xs"
+          >
+            {expanded ? "Покажи по-малко" : `Виж всички (${roles.length})`}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const UsersPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { users, roles } = useAppSelector((s: RootState) => s.users);
@@ -126,15 +179,7 @@ const UsersPage: React.FC = () => {
         dataIndex: "roles",
         key: "roles",
         width: "60%",
-        render: (roles: string[]) => (
-          <div className="flex flex-wrap gap-y-2 items-start">
-            {roles.map((r) => (
-              <Tag key={r} color="blue">
-                {r}
-              </Tag>
-            ))}
-          </div>
-        ),
+        render: (roles: string[]) => <TagPreview roles={roles} />,
       },
       {
         title: "Действия",
@@ -195,6 +240,7 @@ const UsersPage: React.FC = () => {
       <Modal
         title="Създай потребител"
         open={createVisible}
+        closable={false}
         onCancel={() => setCreateVisible(false)}
         okText="Създай"
         cancelText="Отказ"
@@ -212,14 +258,14 @@ const UsersPage: React.FC = () => {
         <Form form={form} layout="vertical">
           <Form.Item
             name="username"
-            label="Username"
+            label="Потребителско име"
             rules={[{ required: true }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="password"
-            label="Password"
+            label="Парола"
             rules={[{ required: true }]}
           >
             <Input.Password />
@@ -239,8 +285,9 @@ const UsersPage: React.FC = () => {
       </Modal>
 
       <Modal
-        title={`Редакция роли: ${editingUser?.username ?? ""}`}
+        title={`Редакция на роли и права: ${editingUser?.username ?? ""}`}
         open={editVisible}
+        closable={false}
         onCancel={() => setEditVisible(false)}
         okText="Запази"
         cancelText="Отказ"
